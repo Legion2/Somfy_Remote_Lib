@@ -30,7 +30,7 @@ void SomfyRemote::sendCommand(Command command) {
 	}
 
 	EEPROM.put(eepromAddress, code + 1);
-#ifdef ESP32 || ESP8266
+#if defined(ESP32) || defined(ESP8266)
 	EEPROM.commit();
 #endif
 }
@@ -90,7 +90,8 @@ void SomfyRemote::sendFrame(byte *frame, byte sync) {
 	if (sync == 2) {  // Only with the first frame.
 		// Wake-up pulse & Silence
 		sendHigh(9415);
-		sendLow(89565);
+		sendLow(9415);
+		delay(80);
 	}
 
 	// Hardware sync: two sync for the first frame, seven for the following ones.
@@ -114,14 +115,16 @@ void SomfyRemote::sendFrame(byte *frame, byte sync) {
 		}
 	}
 
-	sendLow(30415);  // Inter-frame silence
+	// Inter-frame silence
+	sendLow(SYMBOL);
+	delay(30);
 }
 
 void SomfyRemote::sendHigh(uint16_t durationInMicroseconds) {
-#ifdef ESP32 || ESP8266
+#if defined(ESP32) || defined(ESP8266)
 	digitalWrite(emitterPin, HIGH);
 	delayMicroseconds(durationInMicroseconds);
-#elif ARDUINO_ARCH_AVR
+#elif defined(ARDUINO_ARCH_AVR)
 	// TODO fast write
 	digitalWrite(emitterPin, HIGH);
 	delayMicroseconds(durationInMicroseconds);
@@ -129,10 +132,10 @@ void SomfyRemote::sendHigh(uint16_t durationInMicroseconds) {
 }
 
 void SomfyRemote::sendLow(uint16_t durationInMicroseconds) {
-#ifdef ESP32 || ESP8266
+#if defined(ESP32) || defined(ESP8266)
 	digitalWrite(emitterPin, LOW);
 	delayMicroseconds(durationInMicroseconds);
-#elif ARDUINO_ARCH_AVR
+#elif defined(ARDUINO_ARCH_AVR)
 	// TODO fast write
 	digitalWrite(emitterPin, LOW);
 	delayMicroseconds(durationInMicroseconds);

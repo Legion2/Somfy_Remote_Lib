@@ -16,9 +16,10 @@ enum class Command : byte {
 
 class SomfyRemote {
 private:
-	uint16_t eepromAddress;
-	uint32_t remote;
 	byte emitterPin;
+	uint32_t remote;
+	uint16_t eepromAddress;
+
 	void buildFrame(byte *frame, Command command, uint16_t code);
 	void sendFrame(byte *frame, byte sync);
 	void printFrame(byte *frame);
