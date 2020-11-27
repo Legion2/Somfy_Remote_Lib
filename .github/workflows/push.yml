@@ -1,0 +1,22 @@
+name: Test
+on: [push, pull_request]
+jobs:
+  test:
+    name: Test for Board ${{ matrix.board }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arduino-boards-fqbn:
+          - esp8266:esp8266:generic
+          - esp32:esp32:esp32
+          - arduino:avr:uno
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test compile examples
+        uses: ArminJo/arduino-test-compile@v3
+        with:
+          cli-version: 0.12.1
+          arduino-board-fqbn: ${{ matrix.arduino-boards-fqbn }}
+          platform-url: https://arduino.esp8266.com/stable/package_esp8266com_index.json,https://dl.espressif.com/dl/package_esp32_index.json
+          required-libraries: SmartRC-CC1101-Driver-Lib@2.5.2
+          sketch-names: CC1101.ino
