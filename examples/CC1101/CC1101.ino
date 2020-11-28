@@ -1,4 +1,5 @@
 #include <EEPROM.h>
+#include <EEPROMRollingCodeStorage.h>
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
 #include <SomfyRemote.h>
 
@@ -8,7 +9,8 @@
 
 #define CC1101_FREQUENCY 433.42
 
-SomfyRemote somfyRemote(EMITTER_GPIO, REMOTE, EEPROM_ADDRESS);
+EEPROMRollingCodeStorage rollingCodeStorage(EEPROM_ADDRESS);
+SomfyRemote somfyRemote(EMITTER_GPIO, REMOTE, &rollingCodeStorage);
 
 void setup() {
 	Serial.begin(115200);
@@ -19,11 +21,13 @@ void setup() {
 	ELECHOUSE_cc1101.setMHZ(CC1101_FREQUENCY);
 	ELECHOUSE_cc1101.SetTx();
 
-#if defined(ESP32) || defined(ESP8266)
+#if defined(ESP32)
 	if (!EEPROM.begin(4)) {
 		Serial.println("failed to initialise EEPROM");
 		delay(1000);
 	}
+#elif defined(ESP8266)
+	EEPROM.begin(4)
 #endif
 }
 
@@ -31,24 +35,9 @@ void loop() {
 	if (Serial.available() > 0) {
 		char serie = (char)Serial.read();
 		Command command = static_cast<Command>(serie - '0');
-		sendCommandWithRollingCode(command);
+		somfyRemote.sendCommand(command);
 #ifdef DEBUG
 		Serial.println("finished sending");
 #endif
 	}
-}
-
-void sendCommandWithRollingCode(Command command) {
-	uint16_t code;
-	EEPROM.get(EEPROM_ADDRESS, code);
-#ifdef DEBUG
-	Serial.print("Rolling code: ");
-	Serial.println(code);
-#endif
-
-	somfyRemote.sendCommand(command, code);
-	EEPROM.put(EEPROM_ADDRESS, code + 1);
-#if defined(ESP32) || defined(ESP8266)
-	EEPROM.commit();
-#endif
 }

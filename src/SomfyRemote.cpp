@@ -2,15 +2,16 @@
 
 #define SYMBOL 640
 
-SomfyRemote::SomfyRemote(byte emitterPin, uint32_t remote, int eepromAddress)
-	: emitterPin(emitterPin), remote(remote), eepromAddress(eepromAddress) {}
+SomfyRemote::SomfyRemote(byte emitterPin, uint32_t remote, RollingCodeStorage *rollingCodeStorage)
+	: emitterPin(emitterPin), remote(remote), rollingCodeStorage(rollingCodeStorage) {}
 
 void SomfyRemote::setup() {
 	pinMode(emitterPin, OUTPUT);
 	digitalWrite(emitterPin, LOW);
 }
 
-void SomfyRemote::sendCommand(Command command, uint16_t rollingCode) {
+void SomfyRemote::sendCommand(Command command) {
+	const uint16_t rollingCode = rollingCodeStorage->nextCode();
 	byte frame[7];
 	buildFrame(frame, command, rollingCode);
 	sendFrame(frame, 2);
