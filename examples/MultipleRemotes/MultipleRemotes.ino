@@ -28,7 +28,7 @@ void setup() {
 		delay(1000);
 	}
 #elif defined(ESP8266)
-	EEPROM.begin(8)
+	EEPROM.begin(8);
 #endif
 }
 
