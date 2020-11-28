@@ -1,10 +1,8 @@
 #include "SomfyRemote.h"
 
-#include <EEPROM.h>
-
 #define SYMBOL 640
 
-SomfyRemote::SomfyRemote(byte emitterPin, uint32_t remote, uint16_t eepromAddress)
+SomfyRemote::SomfyRemote(byte emitterPin, uint32_t remote, int eepromAddress)
 	: emitterPin(emitterPin), remote(remote), eepromAddress(eepromAddress) {}
 
 void SomfyRemote::setup() {
@@ -12,27 +10,14 @@ void SomfyRemote::setup() {
 	digitalWrite(emitterPin, LOW);
 }
 
-void SomfyRemote::sendCommand(Command command) {
-	uint16_t code;
-	EEPROM.get(eepromAddress, code);
-
-#ifdef DEBUG
-	Serial.print("Rolling code: ");
-	Serial.println(code);
-#endif
-
+void SomfyRemote::sendCommand(Command command, uint16_t rollingCode) {
 	byte frame[7];
-	buildFrame(frame, command, code);
+	buildFrame(frame, command, rollingCode);
 	sendFrame(frame, 2);
 	for (int i = 0; i < 4; i++) {
 		sendFrame(frame, 7);
 		yield();
 	}
-
-	EEPROM.put(eepromAddress, code + 1);
-#if defined(ESP32) || defined(ESP8266)
-	EEPROM.commit();
-#endif
 }
 
 void SomfyRemote::printFrame(byte *frame) {
@@ -47,13 +32,14 @@ void SomfyRemote::printFrame(byte *frame) {
 }
 
 void SomfyRemote::buildFrame(byte *frame, Command command, uint16_t code) {
-	frame[0] = 0xA7;                             // Encryption key. Doesn't matter much
-	frame[1] = static_cast<byte>(command) << 4;  // Which button did  you press? The 4 LSB will be the checksum
-	frame[2] = code >> 8;                        // Rolling code (big endian)
-	frame[3] = code;                             // Rolling code
-	frame[4] = remote >> 16;                     // Remote address
-	frame[5] = remote >> 8;                      // Remote address
-	frame[6] = remote;                           // Remote address
+	const byte button = static_cast<byte>(command);
+	frame[0] = 0xA7;          // Encryption key. Doesn't matter much
+	frame[1] = button << 4;   // Which button did  you press? The 4 LSB will be the checksum
+	frame[2] = code >> 8;     // Rolling code (big endian)
+	frame[3] = code;          // Rolling code
+	frame[4] = remote >> 16;  // Remote address
+	frame[5] = remote >> 8;   // Remote address
+	frame[6] = remote;        // Remote address
 
 #ifdef DEBUG
 	Serial.print("Frame         : ");
@@ -90,8 +76,8 @@ void SomfyRemote::sendFrame(byte *frame, byte sync) {
 	if (sync == 2) {  // Only with the first frame.
 		// Wake-up pulse & Silence
 		sendHigh(9415);
-		sendLow(9415);
-		delay(80);
+		sendLow(89565);
+		// delay(80);
 	}
 
 	// Hardware sync: two sync for the first frame, seven for the following ones.
@@ -116,8 +102,8 @@ void SomfyRemote::sendFrame(byte *frame, byte sync) {
 	}
 
 	// Inter-frame silence
-	sendLow(SYMBOL);
-	delay(30);
+	sendLow(30415);
+	// delay(30);
 }
 
 void SomfyRemote::sendHigh(uint16_t durationInMicroseconds) {

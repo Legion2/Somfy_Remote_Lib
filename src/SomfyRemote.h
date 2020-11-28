@@ -18,7 +18,7 @@ class SomfyRemote {
 private:
 	byte emitterPin;
 	uint32_t remote;
-	uint16_t eepromAddress;
+	int eepromAddress;
 
 	void buildFrame(byte *frame, Command command, uint16_t code);
 	void sendFrame(byte *frame, byte sync);
@@ -28,7 +28,7 @@ private:
 	void sendLow(uint16_t durationInMicroseconds);
 
 public:
-	SomfyRemote(byte emitterPin, uint32_t remote, uint16_t eepromAddress);
+	SomfyRemote(byte emitterPin, uint32_t remote, int eepromAddress);
 	void setup();
-	void sendCommand(Command command);
+	void sendCommand(Command command, uint16_t rollingCode);
 };

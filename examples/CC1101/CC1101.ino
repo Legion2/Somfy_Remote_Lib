@@ -8,26 +8,47 @@
 
 #define CC1101_FREQUENCY 433.42
 
-SomfyRemote somfyRemote(EEPROM_ADDRESS, REMOTE, EMITTER_GPIO);
+SomfyRemote somfyRemote(EMITTER_GPIO, REMOTE, EEPROM_ADDRESS);
 
 void setup() {
 	Serial.begin(115200);
+
+	somfyRemote.setup();
+
 	ELECHOUSE_cc1101.Init();
 	ELECHOUSE_cc1101.setMHZ(CC1101_FREQUENCY);
 	ELECHOUSE_cc1101.SetTx();
 
-#ifdef ESP32 || ESP8266
-	EEPROM.begin(4);
+#if defined(ESP32) || defined(ESP8266)
+	if (!EEPROM.begin(4)) {
+		Serial.println("failed to initialise EEPROM");
+		delay(1000);
+	}
 #endif
-
-	somfyRemote.setup();
 }
 
 void loop() {
 	if (Serial.available() > 0) {
 		char serie = (char)Serial.read();
 		Command command = static_cast<Command>(serie - '0');
-		somfyRemote.sendCommand(command);
+		sendCommandWithRollingCode(command);
+#ifdef DEBUG
 		Serial.println("finished sending");
+#endif
 	}
+}
+
+void sendCommandWithRollingCode(Command command) {
+	uint16_t code;
+	EEPROM.get(EEPROM_ADDRESS, code);
+#ifdef DEBUG
+	Serial.print("Rolling code: ");
+	Serial.println(code);
+#endif
+
+	somfyRemote.sendCommand(command, code);
+	EEPROM.put(EEPROM_ADDRESS, code + 1);
+#if defined(ESP32) || defined(ESP8266)
+	EEPROM.commit();
+#endif
 }
