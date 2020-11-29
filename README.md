@@ -33,7 +33,10 @@ See the [SomfyRemote example](examples/SomfyRemote/SomfyRemote.ino).
 All the examples can be controlled via the Serial Monitor.
 Open the Serial Monitor and set the baud rate to 115200 and set line endings to `Newline` (`\n`).
 You can type in the name of the command or the hexadecimal representation of it.
-Available commands:
+
+The rolling codes are stored in EEPROM.
+
+#### Available commands
 
 | Name    | Description                                     | HEX code |
 |---------|-------------------------------------------------|----------|
@@ -46,3 +49,9 @@ Available commands:
 | Prog    | The Prog button pressed                         | 8        |
 | SunFlag | Enable sun and wind detector                    | 9        |
 | Flag    | Disable sun detector                            | A        |
+
+#### Register the Somfy Remote
+
+Before the emulated Somfy remote can control RTS devices, the remote must be registered.
+Therefore you can refer to the original manual of your RTS device, the only difference is that instead of pressing buttons, the commands from above must be used.
+So for example if the PROG button should be pressed, instead send the `Prog` command.
