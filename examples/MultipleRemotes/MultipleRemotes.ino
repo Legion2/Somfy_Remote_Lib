@@ -34,8 +34,8 @@ void setup() {
 
 void loop() {
 	if (Serial.available() > 0) {
-		char serie = (char)Serial.read();
-		Command command = static_cast<Command>(serie - '0');
+		const String string = Serial.readStringUntil('\n');
+		const Command command = getSomfyCommand(string);
 		somfyRemote1.sendCommand(command);
 		somfyRemote2.sendCommand(command);
 		somfyRemote3.sendCommand(command);

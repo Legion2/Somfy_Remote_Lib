@@ -2,7 +2,7 @@
 
 Based on [Somfy Remote](https://github.com/Nickduino/Somfy_Remote) by Nickduino.
 
-This project is an Arduino Library able to emulate a Somfy remote control on Arduino, ESP8266 and ESP32 devices.
+This project is an Arduino Library able to emulate a Somfy RTS (Radio Technology Somfy) remote control on Arduino, ESP8266 and ESP32 devices.
 It provides out of the box support for multiple remotes and different storage solutions for the rolling codes.
 Because it is a Arduino Library it can easily included in existing projects or used standalone using one of its [included example sketches](examples/).
 
@@ -29,3 +29,20 @@ Search for "Somfy_Remote_Lib" and install the Somfy Remote Lib library.
 ### Usage
 
 See the [SomfyRemote example](examples/SomfyRemote/SomfyRemote.ino).
+
+All the examples can be controlled via the Serial Monitor.
+Open the Serial Monitor and set the baud rate to 115200 and set line endings to `Newline` (`\n`).
+You can type in the name of the command or the hexadecimal representation of it.
+Available commands:
+
+| Name    | Description                                     | HEX code |
+|---------|-------------------------------------------------|----------|
+| My      | The My button pressed                           | 1        |
+| Up      | The Up button pressed                           | 2        |
+| MyUp    | The My and Up button pressed at the same time   | 3        |
+| Down    | The Down button pressed                         | 4        |
+| MyDown  | The My and Down button pressed at the same time | 5        |
+| UpDown  | The Up and Down button pressed at the same time | 6        |
+| Prog    | The Prog button pressed                         | 8        |
+| SunFlag | Enable sun and wind detector                    | 9        |
+| Flag    | Disable sun detector                            | A        |

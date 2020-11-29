@@ -128,3 +128,29 @@ void SomfyRemote::sendLow(uint16_t durationInMicroseconds) {
 	delayMicroseconds(durationInMicroseconds);
 #endif
 }
+
+Command getSomfyCommand(const String &string) {
+	if (string.equalsIgnoreCase("My")) {
+		return Command::My;
+	} else if (string.equalsIgnoreCase("Up")) {
+		return Command::Up;
+	} else if (string.equalsIgnoreCase("MyUp")) {
+		return Command::MyUp;
+	} else if (string.equalsIgnoreCase("Down")) {
+		return Command::Down;
+	} else if (string.equalsIgnoreCase("MyDown")) {
+		return Command::MyDown;
+	} else if (string.equalsIgnoreCase("UpDown")) {
+		return Command::UpDown;
+	} else if (string.equalsIgnoreCase("Prog")) {
+		return Command::Prog;
+	} else if (string.equalsIgnoreCase("SunFlag")) {
+		return Command::SunFlag;
+	} else if (string.equalsIgnoreCase("Flag")) {
+		return Command::Flag;
+	} else if (string.length() == 1) {
+		return static_cast<Command>(strtol(string.c_str(), nullptr, 16));
+	} else {
+		return Command::My;
+	}
+}
