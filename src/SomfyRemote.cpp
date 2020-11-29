@@ -17,7 +17,6 @@ void SomfyRemote::sendCommand(Command command) {
 	sendFrame(frame, 2);
 	for (int i = 0; i < 4; i++) {
 		sendFrame(frame, 7);
-		yield();
 	}
 }
 
@@ -77,8 +76,8 @@ void SomfyRemote::sendFrame(byte *frame, byte sync) {
 	if (sync == 2) {  // Only with the first frame.
 		// Wake-up pulse & Silence
 		sendHigh(9415);
-		sendLow(89565);
-		// delay(80);
+		sendLow(9565);
+		delay(80);
 	}
 
 	// Hardware sync: two sync for the first frame, seven for the following ones.
@@ -103,8 +102,8 @@ void SomfyRemote::sendFrame(byte *frame, byte sync) {
 	}
 
 	// Inter-frame silence
-	sendLow(30415);
-	// delay(30);
+	sendLow(415);
+	delay(30);
 }
 
 void SomfyRemote::sendHigh(uint16_t durationInMicroseconds) {

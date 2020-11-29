@@ -35,4 +35,4 @@ public:
 	void sendCommand(Command command);
 };
 
-Command getSomfyCommand(const String& string);
+Command getSomfyCommand(const String &string);
