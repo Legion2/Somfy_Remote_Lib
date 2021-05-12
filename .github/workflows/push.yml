@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test compile examples for ${{ matrix.arduino-boards-fqbn }}
-        uses: ArminJo/arduino-test-compile@v3
+        uses: ArminJo/arduino-test-compile@v3.1.0
         with:
           cli-version: 0.14.0
           arduino-board-fqbn: ${{ matrix.arduino-boards-fqbn }}
