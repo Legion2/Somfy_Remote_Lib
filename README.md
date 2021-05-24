@@ -19,6 +19,7 @@ I have not the time and resources to test them all, so please let me know (open 
 For this library to work you need an *433.42 Mhz* RF transmitter.
 The regular 433.92 MHz RF transmitter do not work, so watch out when buying a transmitter that you get a *433.42 Mhz* RF transmitter.
 An example for such an compatible transmitter is the CC1101 module, see the [CC1101](examples/CC1101/CC1101.ino) example.
+For the CC1101 module the `SmartRC-CC1101-Driver-Lib` must be installed.
 
 ### Installation
 
