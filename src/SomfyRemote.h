@@ -32,7 +32,14 @@ private:
 public:
 	SomfyRemote(byte emitterPin, uint32_t remote, RollingCodeStorage *rollingCodeStorage);
 	void setup();
-	void sendCommand(Command command);
+	/**
+	 * Send a command with this SomfyRemote.
+	 *
+	 * @param command the command to send
+	 * @param repeat the number how often the command should be repeated, default 4. Should
+	 * 				 only be used when simulating holding a button.
+	 */
+	void sendCommand(Command command, int repeat = 4);
 };
 
 Command getSomfyCommand(const String &string);
