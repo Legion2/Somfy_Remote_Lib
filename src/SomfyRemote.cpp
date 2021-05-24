@@ -10,12 +10,12 @@ void SomfyRemote::setup() {
 	digitalWrite(emitterPin, LOW);
 }
 
-void SomfyRemote::sendCommand(Command command) {
+void SomfyRemote::sendCommand(Command command, int repeat) {
 	const uint16_t rollingCode = rollingCodeStorage->nextCode();
 	byte frame[7];
 	buildFrame(frame, command, rollingCode);
 	sendFrame(frame, 2);
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < repeat; i++) {
 		sendFrame(frame, 7);
 	}
 }
