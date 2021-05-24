@@ -10,7 +10,7 @@ uint16_t EEPROMRollingCodeStorage::nextCode() {
 	Serial.print("Rolling code: ");
 	Serial.println(code);
 #endif
-	EEPROM.put(address, code + 1);
+	EEPROM.put(address, (uint16_t)(code + 1));
 #if defined(ESP32) || defined(ESP8266)
 	EEPROM.commit();
 #endif
