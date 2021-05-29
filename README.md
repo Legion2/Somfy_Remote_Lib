@@ -35,7 +35,16 @@ All the examples can be controlled via the Serial Monitor.
 Open the Serial Monitor and set the baud rate to 115200 and set line endings to `Newline` (`\n`).
 You can type in the name of the command or the hexadecimal representation of it.
 
-The rolling codes are stored in EEPROM.
+#### Rolling Code Storage
+
+This library has a plugable interface for storing the rolling codes, described in [RollingCodeStorage.h](src/RollingCodeStorage.h).
+
+Currently, there are two implementations of the storage available:
+
+1. [EEPROM](src/EEPROMRollingCodeStorage.cpp) - should work on any device with EEPROM
+2. [NVS](src/NVSRollingCodeStorage.cpp) - should work on ESP32 with [Non Volatile Storage](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/nvs_flash.html)
+
+Most [examples](examples/) use the EEPROM implementation. See the [ESP32-NVS](examples/ESP32-NVS/ESP32-NVS.ino) example for NVS.
 
 #### Available commands
 
