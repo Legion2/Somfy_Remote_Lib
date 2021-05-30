@@ -2,7 +2,7 @@ name: Test
 on: [push, pull_request]
 jobs:
   test:
-    name: Test for Board ${{ matrix.board }}
+    name: Test for Board ${{ matrix.arduino-boards-fqbn }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
