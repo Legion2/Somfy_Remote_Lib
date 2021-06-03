@@ -19,7 +19,6 @@ void setup() {
 
 	ELECHOUSE_cc1101.Init();
 	ELECHOUSE_cc1101.setMHZ(CC1101_FREQUENCY);
-	ELECHOUSE_cc1101.SetTx();
 
 #if defined(ESP32)
 	if (!EEPROM.begin(4)) {
@@ -31,11 +30,17 @@ void setup() {
 #endif
 }
 
+void sendCC1101Command(Command command) {
+	ELECHOUSE_cc1101.SetTx();
+	somfyRemote.sendCommand(command);
+	ELECHOUSE_cc1101.setSidle();
+}
+
 void loop() {
 	if (Serial.available() > 0) {
 		const String string = Serial.readStringUntil('\n');
 		const Command command = getSomfyCommand(string);
-		somfyRemote.sendCommand(command);
+		sendCC1101Command(command);
 #ifdef DEBUG
 		Serial.println("finished sending");
 #endif
