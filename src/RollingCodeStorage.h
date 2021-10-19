@@ -10,4 +10,20 @@ public:
 	 * @return next rolling code
 	 */
 	virtual uint16_t nextCode() = 0;
+
+	/**
+	 * Get the current rolling code from the store.
+	 *
+	 * @return current rolling code
+	 */
+    virtual uint16_t currentCode() = 0;
+
+	
+	/**
+	 * Set the current rolling code to the store.
+	 *
+	 * @return current rolling code
+	 */
+    virtual uint16_t currentCode(uint16_t current) = 0;
+	
 };
