@@ -17,7 +17,7 @@ jobs:
           - arduino-boards-fqbn: arduino:avr:uno
             sketches-exclude: ESP32-NVS.ino
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Test compile examples for ${{ matrix.arduino-boards-fqbn }}
         uses: ArminJo/arduino-test-compile@v3
         with:
