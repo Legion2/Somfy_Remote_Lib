@@ -60,6 +60,27 @@ Most [examples](examples/) use the EEPROM implementation. See the [ESP32-NVS](ex
 | SunFlag | Enable sun and wind detector                    | 9        |
 | Flag    | Disable sun detector                            | A        |
 
+The `sendCommand` function can be customized with a second parameter.
+The parameter controlls how often the command is repeated, default is 4 times.
+
+For remote control Telis 4 Modulis RTS5 the following applies:
+When the UP command is sent once, the blinds go up (Open).
+```cpp
+sendCommand(Command::Up, 1);
+```
+When the DOWN command is sent once, the blinds go down (Close).
+```cpp
+sendCommand(Command::Down, 1);
+```
+If you want to tilt the blinds, send the Up / Down command four times.
+```cpp
+sendCommand(Command::Up, 4);
+```
+or
+```cpp
+sendCommand(Command::Down, 4);
+```
+
 #### Register the Somfy Remote
 
 Before the emulated Somfy remote can control RTS devices, the remote must be registered.
