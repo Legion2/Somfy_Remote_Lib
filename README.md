@@ -86,3 +86,11 @@ sendCommand(Command::Down, 4);
 Before the emulated Somfy remote can control RTS devices, the remote must be registered.
 Therefore you can refer to the original manual of your RTS device, the only difference is that instead of pressing buttons, the commands from above must be used.
 So for example if the PROG button should be pressed, instead send the `Prog` command.
+
+### Troubleshooting
+
+#### Up/down commands not responsive after successful PROG
+
+If your blinds jump to respond to the PROG command when registering the remote, but following commands like up and down do not respond, it is likely that your rolling code storage is not persisting. The result of this is that the remote will send a constant rolling code, which the blinds will ignore.
+
+In the case of NVS storage, a possible cause for this is that the key used is too long. The key must [comform with the limitations of your microcontroller](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/nvs_flash.html#keys-and-values).
