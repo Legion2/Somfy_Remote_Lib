@@ -12,6 +12,10 @@ void SomfyRemote::setup() {
 
 void SomfyRemote::sendCommand(Command command, int repeat) {
 	const uint16_t rollingCode = rollingCodeStorage->nextCode();
+	sendCommand(command, repeat, rollingCode);
+}
+
+void SomfyRemote::sendCommand(Command command, int repeat, uint16_t rollingCode) {
 	byte frame[7];
 	buildFrame(frame, command, rollingCode);
 	sendFrame(frame, 2);

@@ -46,6 +46,9 @@ Currently, there are two implementations of the storage available:
 
 Most [examples](examples/) use the EEPROM implementation. See the [ESP32-NVS](examples/ESP32-NVS/ESP32-NVS.ino) example for NVS.
 
+Eventually you can pass NULL into the constructor of the SomfyRemote class in place of *rollingCodeStorage* and use external rolling code keeping logic. 
+If you are not using any story, then you have to use `sendCommand` call with the third parameter, which is the rolling code.
+
 #### Available commands
 
 | Name    | Description                                     | HEX code |

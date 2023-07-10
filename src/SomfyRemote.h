@@ -40,6 +40,16 @@ public:
 	 * 				 only be used when simulating holding a button.
 	 */
 	void sendCommand(Command command, int repeat = 4);
+	
+	/**
+	 * Send a command with this SomfyRemote using a specific rolling code.
+	 *
+	 * @param command the command to send
+	 * @param repeat the number how often the command should be repeated, default 4. Should
+	 * 				 only be used when simulating holding a button.
+	 * @param rollingCode the rolling code to use, default 0. Should only be used with external storage.
+	 */
+	void sendCommand(Command command, int repeat = 4, uint16_t rollingCode = 0);
 };
 
 Command getSomfyCommand(const String &string);
