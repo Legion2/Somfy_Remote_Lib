@@ -24,5 +24,5 @@ jobs:
           cli-version: 0.18.3
           arduino-board-fqbn: ${{ matrix.arduino-boards-fqbn }}
           platform-url: https://arduino.esp8266.com/stable/package_esp8266com_index.json,https://dl.espressif.com/dl/package_esp32_index.json
-          required-libraries: SmartRC-CC1101-Driver-Lib@2.5.6
+          required-libraries: SmartRC-CC1101-Driver-Lib@2.5.7
           sketches-exclude: ${{ matrix.sketches-exclude }}
