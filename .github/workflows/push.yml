@@ -18,11 +18,17 @@ jobs:
             sketches-exclude: ESP32-NVS.ino
     steps:
       - uses: actions/checkout@v3
+      - name: Checkout SmartRC-CC1101-Driver-Lib patch
+        uses: actions/checkout@v3
+        with:
+          repository: Noltari/SmartRC-CC1101-Driver-Lib
+          ref: f02373115d93e3167f412008c47933227bc0a3ac
+          path: CustomSmartRC-CC1101-Driver-Lib
       - name: Test compile examples for ${{ matrix.arduino-boards-fqbn }}
         uses: ArminJo/arduino-test-compile@v3
         with:
-          cli-version: 0.18.3
+          cli-version: 0.34.1
           arduino-board-fqbn: ${{ matrix.arduino-boards-fqbn }}
           platform-url: https://arduino.esp8266.com/stable/package_esp8266com_index.json,https://dl.espressif.com/dl/package_esp32_index.json
-          required-libraries: SmartRC-CC1101-Driver-Lib@2.5.6
+          #required-libraries: SmartRC-CC1101-Driver-Lib@2.5.7 # use patched version
           sketches-exclude: ${{ matrix.sketches-exclude }}
