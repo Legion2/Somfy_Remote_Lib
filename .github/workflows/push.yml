@@ -17,9 +17,9 @@ jobs:
           - arduino-boards-fqbn: arduino:avr:uno
             sketches-exclude: ESP32-NVS.ino
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Checkout SmartRC-CC1101-Driver-Lib patch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: Noltari/SmartRC-CC1101-Driver-Lib
           ref: f02373115d93e3167f412008c47933227bc0a3ac
