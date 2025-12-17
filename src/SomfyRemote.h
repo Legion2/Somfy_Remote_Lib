@@ -26,8 +26,8 @@ private:
 	void sendFrame(byte *frame, byte sync);
 	void printFrame(byte *frame);
 
-	void sendHigh(uint16_t durationInMicroseconds);
-	void sendLow(uint16_t durationInMicroseconds);
+	virtual void sendHigh(uint16_t durationInMicroseconds);
+	virtual void sendLow(uint16_t durationInMicroseconds);
 
 public:
 	SomfyRemote(byte emitterPin, uint32_t remote, RollingCodeStorage *rollingCodeStorage);
