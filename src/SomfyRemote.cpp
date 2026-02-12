@@ -79,10 +79,15 @@ void SomfyRemote::buildFrame(byte *frame, Command command, uint16_t code) {
 void SomfyRemote::sendFrame(byte *frame, byte sync) {
 	if (sync == 2) {  // Only with the first frame.
 		// Wake-up pulse & Silence
+		noInterrupts();
 		sendHigh(9415);
 		sendLow(9565);
+		interrupts();
 		delay(80);
 	}
+
+	// Disable interrupts for the timing-critical transmission.
+	noInterrupts();
 
 	// Hardware sync: two sync for the first frame, seven for the following ones.
 	for (int i = 0; i < sync; i++) {
@@ -107,6 +112,8 @@ void SomfyRemote::sendFrame(byte *frame, byte sync) {
 
 	// Inter-frame silence
 	sendLow(415);
+
+	interrupts();
 	delay(30);
 }
 
